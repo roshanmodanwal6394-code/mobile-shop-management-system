@@ -113,7 +113,18 @@ C:\xampp\htdocs\mobile-shop-management-system
 4. Click **Import** (or **Go**) at the bottom.
 5. The database `mobile_shop_management` will be automatically created with all tables and sample records.
 
-### Step 4: Open the Application
+### Step 4: Database & Application Configuration
+The application is pre-configured to work with default XAMPP settings out of the box:
+- Database settings in `config/database.php`:
+  - **Host:** `localhost`
+  - **Database:** `mobile_shop_management`
+  - **Username:** `root`
+  - **Password:** `""` (empty by default in XAMPP)
+- Base URL settings in `config/config.php`:
+  - Automatically detects the host, port, and subdirectory dynamically (e.g. `http://localhost/mobile-shop-management-system/`).
+  - No manual URL configuration is required unless running on a non-standard port or virtual host.
+
+### Step 5: Open the Application
 In your browser, visit:
 ```
 http://localhost/mobile-shop-management-system/
@@ -126,63 +137,103 @@ http://localhost/mobile-shop-management-system/
 ```
 mobile-shop-management-system/
 │
-├── admin/                     # Administrator Pages
-│   ├── dashboard.php          # Admin KPI dashboard & recent sales
-│   ├── brands.php             # Brands list & model counts
-│   ├── add_brand.php          # Form to add manufacturer
-│   ├── edit_brand.php         # Form to update manufacturer
-│   ├── delete_brand.php       # Safe deletion handler
-│   ├── mobiles.php            # Inventory list with search/filter
-│   ├── add_mobile.php         # Add mobile phone with image upload
-│   ├── edit_mobile.php        # Edit mobile specifications & stock
-│   ├── delete_mobile.php      # Safe mobile deletion handler
-│   ├── view_mobile.php        # Detailed specs card
-│   ├── customers.php          # Registered customer list & stats
-│   ├── sales.php              # All sales transactions
-│   ├── create_sale.php        # Direct in-store sale billing
-│   └── invoice.php            # Print-friendly tax receipt
+├── admin/                             # Administrator Pages
+│   ├── dashboard.php                  # Admin KPI dashboard & recent sales
+│   ├── brands.php                     # Brands list & model counts
+│   ├── add_brand.php                  # Form to add manufacturer
+│   ├── edit_brand.php                 # Form to update manufacturer
+│   ├── delete_brand.php               # Safe deletion handler
+│   ├── mobiles.php                    # Inventory list with search/filter
+│   ├── add_mobile.php                 # Add mobile phone with image upload
+│   ├── edit_mobile.php                # Edit mobile specifications & stock
+│   ├── delete_mobile.php              # Safe mobile deletion handler
+│   ├── view_mobile.php                # Detailed specs card
+│   ├── customers.php                  # Registered customer list & stats
+│   ├── sales.php                      # All sales transactions
+│   ├── create_sale.php                # Direct in-store sale billing
+│   └── invoice.php                    # Print-friendly tax receipt
 │
-├── customer/                  # Customer Pages
-│   ├── dashboard.php          # Customer overview & stats
-│   ├── mobiles.php            # Public smartphone catalog
-│   ├── mobile_details.php     # Product specifications page
-│   ├── order.php              # Checkout / order confirmation
-│   └── purchases.php          # Purchase history & invoices
+├── customer/                          # Customer Pages
+│   ├── dashboard.php                  # Customer overview & stats
+│   ├── mobiles.php                    # Public smartphone catalog
+│   ├── mobile_details.php             # Product specifications page
+│   ├── order.php                      # Checkout / order confirmation
+│   └── purchases.php                  # Purchase history & invoices
 │
-├── auth/                      # Authentication
-│   ├── login.php              # Login page with demo credentials
-│   ├── register.php           # Customer registration
-│   └── logout.php             # Session destruction & redirect
+├── auth/                              # Authentication
+│   ├── login.php                      # Login page with demo credentials
+│   ├── register.php                   # Customer registration
+│   └── logout.php                     # Session destruction & redirect
 │
-├── config/                    # Configurations
-│   ├── config.php             # Base URL detection, currency, helpers
-│   └── database.php           # PDO MySQL connection & error handling
+├── config/                            # Configurations
+│   ├── config.php                     # Base URL detection, currency, helpers
+│   └── database.php                   # PDO MySQL connection & error handling
 │
-├── includes/                  # Reusable Components
-│   ├── header.php             # HTML head & Bootstrap CSS
-│   ├── navbar.php             # Top navigation bar
-│   ├── sidebar.php            # Admin sidebar navigation
-│   ├── auth.php               # Session & role-based access helpers
-│   └── footer.php             # HTML footer & Bootstrap JS
+├── includes/                          # Reusable Components
+│   ├── header.php                     # HTML head & Bootstrap CSS
+│   ├── navbar.php                     # Top navigation bar
+│   ├── sidebar.php                    # Admin sidebar navigation
+│   ├── auth.php                       # Session & role-based access helpers
+│   └── footer.php                     # HTML footer & Bootstrap JS
 │
-├── assets/                    # Static Assets
-│   ├── css/style.css          # Custom styling & print invoice CSS
-│   ├── js/script.js           # Client-side filters & calculators
-│   └── images/                # Sample mobile images & uploads
+├── assets/                            # Static Assets
+│   ├── css/style.css                  # Custom styling & print invoice CSS
+│   ├── js/script.js                   # Client-side filters & calculators
+│   └── images/                        # 20 realistic smartphone images & default fallback
 │
 ├── database/
-│   └── database.sql           # Database schema & sample data
+│   └── database.sql                   # Database schema & sample data
 │
-├── tests/
-│   ├── test_system.php        # Core system test suite (9 automated tests)
-│   ├── test_audit_suite.php   # Full-spectrum audit suite (15 verification tests)
-│   ├── test_http_endpoints.php# Live HTTP endpoint response verification
-│   ├── test_http_session_workflow.php # Live HTTP session, RBAC & IDOR audit
-│   └── test_e2e_workflow.php  # End-to-end transaction & inventory rollback test
+├── tests/                             # Automated Test Suites
+│   ├── test_system.php                # Core system validation (9 tests)
+│   ├── test_audit_suite.php           # Full security, DB, RBAC, IDOR & logic audit (15 tests)
+│   ├── test_e2e_workflow.php          # End-to-end sales transaction & state rollback
+│   ├── test_http_endpoints.php        # HTTP endpoints status check (10 routes)
+│   ├── test_http_session_workflow.php # Live Apache session, RBAC & IDOR testing (12 checks)
+│   └── verify_images.php              # Product image dimension & format verifier (20 models)
 │
-├── index.php                  # Storefront Homepage
-└── README.md                  # Project documentation
+├── index.php                          # Storefront Homepage
+└── README.md                          # Project documentation
 ```
+
+---
+
+## 🧪 Test Execution & Automated Verification
+
+The project includes automated and integration tests to verify database integrity, authentication, access control (RBAC & IDOR), business logic, transaction atomicity, and asset integrity.
+
+### Running the Test Suites:
+
+Open a terminal or command prompt inside the project folder (`C:\xampp\htdocs\mobile-shop-management-system`) and execute:
+
+```bash
+# 1. Core System & Config Unit Tests (9 Tests)
+php tests/test_system.php
+
+# 2. Comprehensive Security, Schema, RBAC & IDOR Audit (15 Tests)
+php tests/test_audit_suite.php
+
+# 3. End-to-End Sales Transaction & Rollback Test
+php tests/test_e2e_workflow.php
+
+# 4. Live Public HTTP Endpoints Status Check (Requires Apache running)
+php tests/test_http_endpoints.php
+
+# 5. Live HTTP Session, RBAC & IDOR Flow via Apache (Requires Apache running)
+php tests/test_http_session_workflow.php
+
+# 6. Smartphone Catalog Asset & Dimensions Verifier
+php tests/verify_images.php
+```
+
+### Verified Test Results (Day 7 Audit):
+- **`tests/test_system.php`**: 9 / 9 Passed (100%)
+- **`tests/test_audit_suite.php`**: 15 / 15 Passed (100%)
+- **`tests/test_e2e_workflow.php`**: Completed successfully with clean database state restoration (100%)
+- **`tests/test_http_endpoints.php`**: 10 / 10 Endpoints returned HTTP 200 OK (100%)
+- **`tests/test_http_session_workflow.php`**: 12 / 12 RBAC & IDOR assertions passed (100%)
+- **`tests/verify_images.php`**: 20 / 20 Smartphone models verified with valid image assets (100%)
+- **PHP Syntax Check (`php -l`)**: All 36 PHP files passed with 0 syntax errors.
 
 ---
 
@@ -212,6 +263,21 @@ mobile-shop-management-system/
 
 **Q4: How does the invoice print feature work without external libraries?**
 > **Answer:** Standard CSS `@media print` rules hide non-printable elements (navbar, buttons, sidebar) and format the invoice container cleanly for any standard A4 printer or "Save as PDF" browser dialog.
+
+---
+
+## ⚠️ Known Limitations & Future Roadmap
+
+### Current Scope & Architectural Boundaries:
+- **Single Currency:** Prices and invoices are formatted in Indian Rupee (INR ₹) by default.
+- **Local File Uploads:** Uploaded smartphone images are stored in `assets/images/uploads/` on the local web server filesystem rather than cloud object storage (e.g., S3/GCS).
+- **Checkout Flow:** Designed for single-item instant checkout (typical for smartphone purchases) with offline payment modes (Cash on Delivery, UPI on Delivery, Card on Delivery).
+
+### Recommended Future Enhancements:
+- **Payment Gateway:** Integration with online payment providers such as Razorpay or Stripe for automated online payment verification.
+- **Multi-Item Cart:** Persistent shopping cart for purchasing accessories along with smartphones.
+- **Automated Email Receipts:** Sending PDF invoices directly to customer email using PHPMailer or SMTP service.
+- **Stock Restocking Logs:** Dedicated inventory supplier management and purchase orders for store restocks.
 
 ---
 
